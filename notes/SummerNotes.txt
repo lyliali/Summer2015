@@ -38,12 +38,3 @@ Long Term Concerns with Animations:
 - "Indeed, it is worth noting here that the only interviewee that had completely rejected the monitor and packed it away, had done so at least in part because he saw the whole system of providing a device that uses electricity in order to tell people to save electricity as both extremely hypocritical and excessively wasteful"
 
 - " Our pilot study [24] revealed the need for a weekly reminder regarding use of the dashboard. To support engagement with the dashboard, participants received a reminder email every Monday morning. An example reminder email says “We encourage you to visit the energy dashboard site regularly and hope you're able to learn your energy performance and behave more pro-environmentally”, with the dashboard URL and contact information included in case they have questions about the system. "
-
-Next Steps:
- - I handle the watthours entirely informally in my animation. If we want to show that 
- - Test animation with all devices
- - Set up firewall
- - Update ssh allow/deny
- - 
-
-
