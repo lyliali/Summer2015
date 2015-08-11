@@ -1,0 +1,28 @@
+If you were ever to start again fresh, follow these steps to get everything online
+
+Change the keyboard to English (Important to do before changing password, otherwise characters might not line up):
+    - sudo emacs /etc/default/keyboard
+    - #XKBLAYOUT="gb"
+    - XKBLAYOUT="us"
+
+Change password:
+    - passwd
+
+Install emacs
+    - sudo apt-get install emacs23-nox
+
+To set up animation:
+   - copy graphics folder from git to your Desktop
+   - sudo apt-get install freeglut3-dev
+   - sudo apt-get install libcurl4-gnutls-dev
+
+Set up hostapd and dhcp:
+   - https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
+
+Update ssh allows and denies:
+   - sudo emacs /etc/hosts.allow
+   - sudo emacs /etc/hosts.deny
+     - ALL: ALL
+
+If password is forgotten:
+    - http://www.raspberrypi-spy.co.uk/2014/08/how-to-reset-a-forgotten-raspberry-pi-password/

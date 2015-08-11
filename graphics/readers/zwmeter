@@ -1,0 +1,135 @@
+#!/usr/bin/php
+<?php
+/*
+    zwmeter - query energy meters using OpenZWave
+    Copyright (2012) University of Massachusetts Amherst
+    Contact Sean Barker (sbarker@cs.umass.edu)
+    See the file COPYING for license information.
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+$cwd = dirname(__FILE__);
+
+define('ZWAVE_CONF', '/etc/zwave.conf');
+
+$argv = $_SERVER['argv'];
+if (count($argv) != 3) {
+  die("Usage: zwmeter [ttyfile] [interval-msec]\n");
+}
+$ttyfile = $argv[1];
+$interval = $argv[2];
+echo "interval msec: ";
+echo $interval;
+
+$devices = array();
+if (!file_exists(ZWAVE_CONF) || filesize(ZWAVE_CONF) == 0) {
+  echo "WARNING: Z-Wave configuration file doesn't exist or is empty\n";
+} else {
+  foreach (file(ZWAVE_CONF) as $line) {
+    $matches = array();
+    if (preg_match('/^\s*(#?)(\d+)\s+(\S+)\s*$/', $line, $matches)) {
+      if ($matches[1]) {
+        continue;
+      }
+      $zwaveId = (int) $matches[2];
+      $zwaveName = $matches[3];
+      if ($zwaveName == 'zwround') {
+        die("zwround is a reserved name\n");
+      }
+      $devices[$zwaveId] = $zwaveName;
+    } else {
+      die("Bad config line '$line'\n");
+    }
+  }
+}
+
+declare(ticks = 1);
+pcntl_signal(SIGTERM, 'signal_handler');
+pcntl_signal(SIGINT, 'signal_handler');
+$exit = false;
+function signal_handler($signal) {
+  global $exit;
+  switch ($signal) {
+    case SIGTERM:
+    case SIGKILL:
+    case SIGINT:
+      echo "signal received, shutting down...\n";
+      $exit = true;
+      system('killall -q zwread');
+      sleep(1);
+      system('killall -q -9 zwread');
+      return;
+  }
+}
+
+$matches = array();
+while (!$exit) {
+#  echo "opening zwread...\n";
+  $handle = popen("$cwd/zwread $ttyfile $interval", 'r');
+  $starting = true;
+
+  $roundStart = microtime(true);
+  $roundDevices = array();
+
+  while (!$exit && ($line = fgets($handle)) !== false) {
+    if ($starting && strpos($line, 'ERROR: Cannot open serial port') !== false) {
+      # failed, restart zwread
+      echo "WARNING: serial port read failed, retrying...\n";
+      break;
+    } else if (strpos($line, 'Received Meter report') !== false) {
+      #success, got energy reading
+    
+      if (preg_match('/ Node(\d+).*?Energy=([0-9.]+)kWh$/', $line, $matches)) {
+         $level = $matches[2];				   
+         echo "** $zwaveName $level\n";			   
+      }
+    } else if (strpos($line, 'Received SensorMultiLevel report') !== false) {
+      # success, got power reading
+      $starting = false;
+
+      if (preg_match('/ Node(\d+).*?value=([0-9.]+)W$/', $line, $matches)) {
+        $zwaveId = (int) $matches[1];
+        if (isset($devices[$zwaveId])) {
+          $zwaveName = $devices[$zwaveId];
+        } else {
+          #echo "WARNING: no device in config file for ID $zwaveId\n";
+          $zwaveName = "[ID $zwaveId]";
+        }
+        $level = $matches[2];
+        echo "* $zwaveName $level\n";
+
+        if (isset($roundDevices[$zwaveName])) {
+          $roundDevices = array();
+          $now = microtime(true);
+          $duration = round(($now - $roundStart) * 1000.0); # convert to ms
+          #echo "* zwround $duration\n";
+          $roundStart = $now;
+        }
+        $roundDevices[$zwaveName] = true;
+
+      } else {
+        echo "WARNING: failed to match report line '$line'\n";
+      }
+    }
+  }
+  system('killall -q zwread');
+  pclose($handle);
+  if (!$exit) {
+    sleep(1);
+  }
+}
+
+?>
