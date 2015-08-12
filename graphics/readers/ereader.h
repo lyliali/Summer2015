@@ -1,3 +1,4 @@
+//A simple interface for communication with the monitors
 #ifndef ereader_h
 #define ereader_h
 
@@ -6,11 +7,13 @@
 
 using namespace std;
 
+//An individual reading from one of the associated devices
 struct reading {
-  string deviceID;
-  double data;
+  string deviceID; //Name of the device
+  double data;     //Current power
 };
 
+//An example of an ereader is the egauge device with many associated readers
 class ereader {
 
   public:

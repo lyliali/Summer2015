@@ -1,3 +1,6 @@
+//A driver for the egauge monitoring system
+// Devin Gardella 2015
+
 #include "ereader.h"
 #include "egauge_reader.h"
 #include <stdio.h>
@@ -28,7 +31,7 @@ int egauge_reader::getNumDevices(){
 }
 
 void egauge_reader::init(){
-
+  //Initialize a curl object for easy packet sending.
   curl_global_init(CURL_GLOBAL_ALL);
   egauge_reader::curl = curl_easy_init();
   if (!curl){
@@ -50,6 +53,8 @@ string egauge_reader::query(){
   string url;
   string buffer = "";
 
+  //This might not always work! This isn't the most current version of the data format according to egauge.
+  //But, it is the most convient for us in the moment.
   url = egauge_reader::ip + "/cgi-bin/egauge?noteam";
   curl_easy_setopt(curl,CURLOPT_URL, url.c_str());
   curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION, egauge_reader::readFunc);
@@ -59,7 +64,8 @@ string egauge_reader::query(){
   return buffer;
 }
 
-//Could the order of devices change? That would be annoying.
+//If the order of the devices change in the response of the egauge monitor, this will cause an 
+//issue withe the current code!
 vector<reading> egauge_reader::getNewReadings(){
   vector<reading> readings;
 
@@ -96,16 +102,4 @@ void egauge_reader::shutdown(){
   }
   egauge_reader::ip = "";
 }
-
-/*
-int main(int argc, char**argv){
-  egauge_reader* one = new egauge_reader("http://egauge1474.egauge.cs.umass.edu");
-  vector<reading> roundone = one->getNewReadings();
-  for (int i = 0; i < roundone.size(); i++){
-    reading cur = roundone[i];
-    printf("Device Id: %s, Value: %f\n",cur.deviceID.c_str(), cur.data);
-  }
-  return 0;
-}
-*/
 

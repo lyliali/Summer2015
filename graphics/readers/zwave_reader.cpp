@@ -1,3 +1,5 @@
+// A driver for communication with the z-wave devices
+// Devin Gardella (2015)
 #include "ereader.h"
 #include "zwave_reader.h"
 #include <sstream>
@@ -9,16 +11,18 @@
 #include <sys/types.h>
 #include <pwd.h>
 
+string Z_DIR = "/Desktop/graphics/readers/zwmeter";
 static vector<reading> currentReadings;
 static bool running;
 
 zwave_reader::zwave_reader(){
   zwave_reader::child = 0;
   zwave_reader::init();
-  thread update_thread(&zwave_reader::getNext,this);
+  thread update_thread(&zwave_reader::getNext,this); //This thread reads from the pipe and packs the data into our reading format. 
+                                                     //(so that we can respond immediately with the new readings) 
   running = true;
   update_thread.detach();
-  sleep(10); //Gotta wait till the reader is fully online.
+  sleep(10); //z-wave devices take up to 10 seconds to become fully functional when first queried.
 }
 
 zwave_reader::~zwave_reader(){
@@ -34,6 +38,7 @@ int zwave_reader::getNumDevices(){
 }
 
 void zwave_reader::init(){
+  //We start a process here which runs the zwmeter binary from open-zwave and pipes that output to us.
   if (zwave_reader::child){
     printf("%d\n",zwave_reader::child);
     perror("Already initialized!\n");
@@ -61,7 +66,7 @@ void zwave_reader::init(){
     close(p_stdin[READ]);
     close(p_stdout[READ]);
     dup2(p_stdout[WRITE],WRITE);
-    execlp( (string(getpwuid(getuid())->pw_dir) + string("/Desktop/graphics/readers/zwmeter")).c_str(), "./zwmeter", "/dev/ttyUSB0", "300", NULL);
+    execlp( (string(getpwuid(getuid())->pw_dir) + Z_DIR).c_str(), "./zwmeter", "/dev/ttyUSB0", "300", NULL);
     perror("Couldn't start reader\n");
     exit(1);
   }
@@ -71,6 +76,7 @@ void zwave_reader::init(){
   zwave_reader::child = pid;
 }
 
+//This is the update thread's work which simply reads from the pipe and packs the data into the static vector currentReadings
 string zwave_reader::getNext(){
   char buff[1024];
   while (running && (fgets(buff, 1024, zwave_reader::fp) != NULL)){
@@ -109,4 +115,3 @@ void zwave_reader::shutdown(){
     printf("%s\n","zwave successfully shutdown");
   }
 }
-
