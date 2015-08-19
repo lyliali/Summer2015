@@ -21,5 +21,4 @@ Contains all of the files necessary for running the animation designed by Sarah 
   - graphics/example.conf: An example configuration file for the animation.
   - graphics/hive.conf: The configuration file used by the animation.
   - graphics/hive_animation.cpp: The code for the animation itself.
-  - graphics/hive_animation.cpp: The header file for the animation itself.
-Graphics/Readers Directory:
+  - graphics/readers: A directory containing all of the drivers and interfaces for the various monitoring devices.
