@@ -1,3 +1,5 @@
+# A basic reader which is used to test the animation.
+
 import math
 
 class SineReader:
