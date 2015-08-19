@@ -15,4 +15,11 @@ Contains files that I worked on, but later decided not to actively use in the an
   - dev/test_readers.py: An implemention of a reader for testing purposes.
   - dev/wemo.py: A comprehensive interface for connecting to a wemo insight switch.
 
-
+Graphics Directory:
+Contains all of the files necessary for running the animation designed by Sarah Abramson.
+  - graphics/Makefile: A convient makefile for compiling the animation. Simply call "make".
+  - graphics/example.conf: An example configuration file for the animation.
+  - graphics/hive.conf: The configuration file used by the animation.
+  - graphics/hive_animation.cpp: The code for the animation itself.
+  - graphics/hive_animation.cpp: The header file for the animation itself.
+Graphics/Readers Directory:
