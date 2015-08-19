@@ -11,7 +11,7 @@ Change password:
 Install emacs
     - sudo apt-get install emacs23-nox
 
-To set up animation:
+To set up animation (C++ version):
    - copy graphics folder from git to your Desktop
    - sudo apt-get install freeglut3-dev
    - sudo apt-get install libcurl4-gnutls-dev
@@ -26,3 +26,9 @@ Update ssh allows and denies:
 
 If password is forgotten:
     - http://www.raspberrypi-spy.co.uk/2014/08/how-to-reset-a-forgotten-raspberry-pi-password/
+
+If the screen turns green for some strange reason and outputs strange colors:
+    - Test the HDMI cable and screen with another computer
+    - Go into /boot/config.txt and enable 
+       config_hdmi_boost=3
+    - For some reason 3 works and higher numbers do not... don't ask me why.
