@@ -1,4 +1,4 @@
-Found on: http://137.165.241.30:49153/setup.xml
+Found on: http:/[ip]:[port]/setup.xml
 
 urn:Belkin:service:WiFiSetup:1
 /upnp/control/WiFiSetup1
