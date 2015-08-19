@@ -1,13 +1,9 @@
+# A simple library for communication with the wemo insight switch.
+
 import requests
 import time
 import sys
 
-'''
-IP = "137.165.241.30"
-#IP = "192.168.42.11"
-PORTS = 
-port_choice = 1
-'''
 class WemoReader:
     def __init__(self, ip_addr, ignores):
         self.ip = ip_addr
