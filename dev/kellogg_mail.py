@@ -1,21 +1,16 @@
-# smtplib module send mail
-# hint password is our advisor's first name no caps
+# A simple script to send emails.
+# See: https://developers.google.com/gmail/api/quickstart/python
+
 import sys
 import smtplib
 
-def sxor(s1,s2):    
-    return ''.join(chr(ord(s)^ord(c)) for s,c in zip(s1,s2*100))
-
-TO = 'thedevingardella@gmail.com'
+TO = ''
 SUBJECT = 'TEST Email'
 TEXT = 'Here is a message from python.'
 
 # Gmail Sign In
-gmail_sender = 'dpg3@williams.edu'
-gmail_passwd = '\x1f\x03\x04\x04\x1d\x0e\x0f\x1f\x1c\x03\x14\r\x07\x15\x00\x08'
-app_pass = sys.argv[1]
-
-gmail_passwd = sxor(gmail_passwd, app_pass)
+gmail_sender = ""
+gmail_passwd = ""
 
 server = smtplib.SMTP('smtp.gmail.com', 587)
 server.ehlo()
