@@ -2,7 +2,7 @@
 This is a repository of the all work I did over the summer.
 
 Notes Directory:
-Contains textfiles which will help you get started on developing the animation from here.
+\nContains textfiles which will help you get started on developing the animation from here.
   - notes/rasp_setup.txt: Explains the process to install and configure the raspberry pi from a fresh install. Also contains debug information.
   - notes/summer_notes.txt: Concerns and thoughts about the animation. Contains information on what we still have to tackle and what might be a problem in the future.
   - notes/wemo_commands.txt: All of the possible commands that could be sent to the wemo, found on the wemo itself. 
