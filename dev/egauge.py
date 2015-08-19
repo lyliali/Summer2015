@@ -1,3 +1,6 @@
+#Beatifully simply interface for communication with egauge devices.
+#Uses the old formatting style of /cgi-bin/egauge?noteam, could become depreciated in the future.
+
 import requests
 import time
 import xml.etree.ElementTree as ET
