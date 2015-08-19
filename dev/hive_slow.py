@@ -1,6 +1,7 @@
 '''
 Not only is this extremely slow to render, it is extremely bugged...
-C++ was the right choice.
+C++ was the right choice for the raspberry pi.
+However this is a good place to look to see how everything works!
 '''
 
 from OpenGL.GL import *
