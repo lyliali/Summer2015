@@ -31,3 +31,11 @@ If the screen turns green for some strange reason and outputs strange colors:
     - Go into /boot/config.txt and enable 
        config_hdmi_boost=3
     - For some reason 3 works and higher numbers do not... don't ask me why.
+
+Getting a Wemo to setup:
+    - Holding the small white button under the power button, plug in the wall. (Hold for 30 seconds)
+    - Wait until you see the Wemo wifi network start up on your phone.
+    - Connect to this wifi network
+    - Start up the Wemo app from Belkin on a phone. 
+    - Follow setup instructions, connecting to the required wifi network.
+    - Wait until the firmware is installed.
