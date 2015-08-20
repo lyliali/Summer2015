@@ -3,6 +3,7 @@ Things that need to be addressed in the future:
   - Currently we deal with watt-hours quite informally in the animation only keeping track of the relative amounts. We will need to implement a timing system to get accurate counts, or rely on the devices themselves to report this and build this functionality into the drivers.
   - We have to build in the reset functionality, resetting every day or so. (see later decision) Currently we have a function that resets everything, but it might be good to put in a few frames saying the word ("HOURLY/DAILY RESET").
   - We might want to quickly work up a table that tells the user what color each appliance is. (Pretty easy to implement)
+  - If you are a master of OpenGL, it would be really cool to implement this using the modern pipeline with shaders! (see http://www.labri.fr/perso/nrougier/teaching/opengl/) 
 
 Thoughts on Resets:
   Concerns:
