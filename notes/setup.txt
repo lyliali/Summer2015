@@ -39,3 +39,6 @@ Getting a Wemo to setup:
     - Start up the Wemo app from Belkin on a phone. 
     - Follow setup instructions, connecting to the required wifi network.
     - Wait until the firmware is installed.
+    - If you are using the private network, the wifi network is called Pi_Wifi.
+        - See emacs /etc/hostapd/hostapd.conf for password
+        - See emacs /etc/dhcp/dhcpd.conf for assigned private ip
