@@ -1,4 +1,7 @@
-# A basic reader which is used to test the animation.
+'''
+A basic reader which is used to test the animation.
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+'''
 
 import math
 

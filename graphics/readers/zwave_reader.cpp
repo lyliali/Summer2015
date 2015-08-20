@@ -1,5 +1,8 @@
-// A driver for communication with the z-wave devices
-// Devin Gardella (2015)
+/*
+An interface for the zwave monitoring system.
+Uses zwmeter and zwread from the OpenZWave project.
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+*/
 #include "ereader.h"
 #include "zwave_reader.h"
 #include <sstream>

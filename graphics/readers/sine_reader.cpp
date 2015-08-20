@@ -1,5 +1,7 @@
-// An example of a ereader, written for testing and debugging purposes.
-// Devin Gardella - Summer 2015
+/* 
+An example of a ereader, written for testing and debugging purposes.
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+*/
 
 #include "ereader.h"
 #include "sine_reader.h"

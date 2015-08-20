@@ -1,3 +1,20 @@
+/*
+Updated version of the hive.
+
+Power is mapped to the number of hexagons on the screen, 
+energy to the progress they have made towards you (in the z-dimension).
+
+Tested very poorly with users. 
+
+Because of the prespective given to the user, it is hard to tell which hexagons
+are more numerous and the reset towards the back is still jarring...
+
+Takes awhile to figure out what is going on (is not immediate).
+
+Left in for legacy.
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+*/
+
 #include "hive_animation3.h"
 #include "readers/sine_reader.cpp"
 #include "readers/wemo_reader.cpp"

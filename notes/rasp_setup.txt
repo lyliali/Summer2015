@@ -1,4 +1,4 @@
-If you were ever to start again fresh, follow these steps to get everything online
+If you were ever to start again fresh, follow these steps to get everything online.
 
 Change the keyboard to English (Important to do before changing password, otherwise characters might not line up):
     - sudo emacs /etc/default/keyboard
@@ -12,7 +12,6 @@ Install emacs
     - sudo apt-get install emacs23-nox
 
 To set up animation (C++ version):
-   - copy graphics folder from git to your Desktop
    - sudo apt-get install freeglut3-dev
    - sudo apt-get install libcurl4-gnutls-dev
 

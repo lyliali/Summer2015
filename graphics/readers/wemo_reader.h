@@ -1,5 +1,6 @@
-// An interface to connect Wemo insight readers.
-// Devin Gardella - Summer 2015
+/*
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+*/
 
 #include "ereader.h"
 #include <curl/curl.h>

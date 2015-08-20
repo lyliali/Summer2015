@@ -1,37 +1,39 @@
+Things that need to be addressed in the future:
+  - Might want to move to socket based communication instead of curl?
+  - Currently we deal with watt-hours quite informally in the animation only keeping track of the relative amounts. We will need to implement a timing system to get accurate counts, or rely on the devices themselves to report this and build this functionality into the drivers.
+  - We have to build in the reset functionality, resetting every day or so. (see later decision) Currently we have a function that resets everything, but it might be good to put in a few frames saying the word ("HOURLY/DAILY RESET").
+  - We might want to quickly work up a table that tells the user what color each appliance is. (Pretty easy to implement)
+
 Thoughts on Resets:
   Concerns:
-    - An arbitary reset doesn't help us too much and could be distracting. 
+    - An arbitrary reset doesn't help us too much and could be distracting. 
     - At a certain point, hexagons don't grow, if not enough are on the screen these big ones look bad.
     - Overlaps sometimes look good, at other times they look less than pleasing. 
-    - Although it doesn't look inheriently bad when too many hexagons are on screen (kind of like stain-glass windows).
+    - Although it doesn't look inherently bad when too many hexagons are on screen (kind of like stain-glass windows).
     - Any reset without warning is jarring to the user, it worries that something went wrong...
 
   Reset Options:
-    - Allow users to reset: (Definitevely add)
+    - Allow users to reset: 
         + Seems like a decent idea and something we should implement. 
-  	- Can't rely on a user being there, need a second solution.
+  	    - Can't rely on a user being there, need a second solution.
     - Reset at a given hex size: 
-        + Guarentees that we never over-populate the screen with images.
-        - Seems somewhat arbitary and jarring to a user, they could feel like they are doing something wrong.
+        + Guarantees that we never over-populate the screen with images.
+        - Seems somewhat arbitrary and jarring to a user, they could feel like they are doing something wrong.
         - If not properly implemented, we could see a rapid reset rate that diminishes value of display
     - Reset on the hour (or half-hour):
         + Could be tuned to keep us at a pleasant screen capacity
         + Wouldn't be jarring to a user if we added a clock to the screen and made it apparent that we reset on the hour marks.
-        - Could be too long and we could run into issues where we just see large hexagons
+        - Could be too long or too short.
     - No reset, endless loop animation (http://i.imgur.com/jE2jnuv.gif):
-        + Would make the reset seemless.
-  	- Might limit our ability to display which devices are using the most power over time.
+        + Would make the reset seamless.
+  	    - Might limit our ability to display which devices are using the most power over time.
 
-Ideas on Moving the Animation Forward:
-  - Table that tells the user what appliance each color is (Easy to implement)
-  - Some form of longer term, less ambient animation that could be used to gain more information.
-
-Long Term Concerns with Animations:
-- "It penalises you for normal usage, so, if you happen to decide to do the washing on a Thursday, whereas last week you did it on a Wednesday, erm, you’ll show up extraordinarily good on this Wednesday, but extraordinarily bad this Thursday and all you’ve done is the washing. It can't distinguish between good usage and bad usage."
+Long Term Concerns with Animations from the Papers:
+- "It penalizes you for normal usage, so, if you happen to decide to do the washing on a Thursday, whereas last week you did it on a Wednesday, erm, you’ll show up extraordinarily good on this Wednesday, but extraordinarily bad this Thursday and all you’ve done is the washing. It can't distinguish between good usage and bad usage."
 
 - "Indeed, once the base or normal level of consumption had been identified, there was very little sense among interviewees that it either could or should be reduced further. "
 
-- "As these quotations illustrate clearly, the devices had been used to learn about normal and base levels of consumption and had done this extremely effectively. Beyond this, however, they did not appear to have a strongly motivating effect to encourage at least this group of interviewees to change their behaviour further."
+- "As these quotations illustrate clearly, the devices had been used to learn about normal and base levels of consumption and had done this extremely effectively. Beyond this, however, they did not appear to have a strongly motivating effect to encourage at least this group of interviewees to change their behavior further."
 
 - "Worryingly, and following Strengers, 2008 and Strengers, 2011, these findings suggest that the monitors may in fact serve to reinforce and harden existing and potentially unsustainable levels of energy consumption as 'normal'."
 

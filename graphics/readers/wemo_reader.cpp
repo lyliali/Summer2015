@@ -1,6 +1,7 @@
-// An interface to connect Wemo insight readers.
-// Devin Gardella - Summer 2015
-
+/*
+A driver for the wemo monitoring system.
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+*/
 #include "ereader.h"
 #include "wemo_reader.h"
 #include <stdio.h>
@@ -91,7 +92,7 @@ size_t wemo_reader::find_nth(string s, string delim, int n){
   return ans + delim.length() +wemo_reader::find_nth(s.substr(ans+delim.length()), delim, --n);
 }
 
-//Returns the result of a query to the assosicated device.
+//Returns the result of a query to the associated device.
 string wemo_reader::query(string port_num){
   string url;
   string buffer = "";
@@ -127,8 +128,7 @@ vector <reading> wemo_reader::getNewReadings(){
   return readings;
 }
 
-//CURL code to deal with responses.
-//NOTE: This is only called if something has been read!
+//CURL code to deal with responses. 
 size_t wemo_reader::readFunc(char *ptr, size_t size, size_t nmeb, string *buf){
   if (buf == NULL){
     printf("%s\n", "buf was NULL");

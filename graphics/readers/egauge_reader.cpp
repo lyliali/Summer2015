@@ -1,6 +1,7 @@
-//A driver for the egauge monitoring system
-// Devin Gardella 2015
-
+/*
+A driver for the egauge monitoring system.
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+*/
 #include "ereader.h"
 #include "egauge_reader.h"
 #include <stdio.h>
@@ -54,7 +55,7 @@ string egauge_reader::query(){
   string buffer = "";
 
   //This might not always work! This isn't the most current version of the data format according to egauge.
-  //But, it is the most convient for us in the moment.
+  //But, it is the most convenient for us in the moment.
   url = egauge_reader::ip + "/cgi-bin/egauge?noteam";
   curl_easy_setopt(curl,CURLOPT_URL, url.c_str());
   curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION, egauge_reader::readFunc);
@@ -64,12 +65,13 @@ string egauge_reader::query(){
   return buffer;
 }
 
-//If the order of the devices change in the response of the egauge monitor, this will cause an 
-//issue withe the current code!
+//If the order of the devices returned change in the response of the egauge monitor, 
+//this will cause an issue with the current code! (haven't seen that in practice)
 vector<reading> egauge_reader::getNewReadings(){
   vector<reading> readings;
 
   string full = egauge_reader::query();
+  //Find the first meter
   size_t nPos = full.find("<meter title=\"",0);
   while (nPos != string::npos){
     reading cur;
@@ -85,7 +87,7 @@ vector<reading> egauge_reader::getNewReadings(){
   return readings;
 }
 
-//NOTE: This is only called if something has been read!
+//NOTE: This is only called if something has been read by CURL (I would not mess with it).
 size_t egauge_reader::readFunc(char *ptr, size_t size, size_t nmeb, string *buf){
   if (buf == NULL){
     printf("%s\n", "buf was NULL");

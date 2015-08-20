@@ -1,5 +1,6 @@
-// An example of a ereader, written or testing and debugging purposes.                                                   
-// Devin Gardella - Summer 2015      
+/*
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+*/  
 #include "ereader.h"
 
 class sine_reader : public ereader {

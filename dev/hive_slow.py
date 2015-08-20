@@ -1,7 +1,13 @@
 '''
-Not only is this extremely slow to render, it is extremely bugged...
+Towards the end of the year we hoped to produce a python version of
+the animation for ease of iteration on the animation. 
+
+Unfortunately this is extremely slow to render, it is extremely bugged...
+
 C++ was the right choice for the raspberry pi.
+
 However this is a good place to look to see how everything works!
+(c) Devin Gardella 2015 (dpg3@williams.edu)
 '''
 
 from OpenGL.GL import *
@@ -226,10 +232,8 @@ if __name__ == '__main__':
   glEnable( GL_BLEND )
   glEnable( GL_LINE_SMOOTH )
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-  print("Finished all but init")
   init()
 
   devices_from_file("hive.conf")
-  
 
   glutMainLoop()

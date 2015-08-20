@@ -1,4 +1,7 @@
-//A simple interface for communication with the monitors
+/*
+The interface we designed to communicate with electronic monitors.
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+*/
 #ifndef ereader_h
 #define ereader_h
 
@@ -13,12 +16,11 @@ struct reading {
   double data;     //Current power
 };
 
-//An example of an ereader is the egauge device with many associated readers
 class ereader {
 
   public:
-    virtual void init() = 0;
-    virtual string getType() = 0;
+    virtual void init() = 0; //Initializes and tests connections with the devices
+    virtual string getType() = 0; //Returns the name of the ereader
     virtual int getNumDevices() = 0;
     virtual vector<reading> getNewReadings() = 0;
     virtual void shutdown() = 0;

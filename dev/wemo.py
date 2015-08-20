@@ -1,5 +1,7 @@
-# A simple library for communication with the wemo insight switch.
-
+'''
+A simple library for communication with the wemo insight switch.
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+'''
 import requests
 import time
 import sys
@@ -8,6 +10,7 @@ class WemoReader:
     def __init__(self, ip_addr, ignores):
         self.ip = ip_addr
         POSS_PORTS = ["49152","49153","49154"]
+        #Try each port that I've seen the Wemo decide to use.
         for p in POSS_PORTS:
             try:
                 self.port = p

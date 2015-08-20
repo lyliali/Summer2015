@@ -1,3 +1,8 @@
+/*
+See .cpp file for information on this file.
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+*/
+
 #include "GL/freeglut.h"
 #include "GL/gl.h"
 #include "readers/ereader.h"

@@ -1,3 +1,13 @@
+/*
+The animation designed by Sarah Abramson based on the work of:
+
+Johnny Rodge
+August-September 2010
+http://johnny.hcssl.iat.sfu.ca
+
+(c) Devin Gardella 2015 (dpg3@williams.edu)
+*/
+
 #include "hive_animation.h"
 #include "readers/sine_reader.cpp"
 #include "readers/wemo_reader.cpp"
@@ -13,15 +23,20 @@
 
 using namespace std;
 
-float DELAY = .1;         //How long to wait between queries in seconds
+float DELAY = .3;         //How long to wait between queries in seconds
+
 float MAX_OPACITY = .9;
-float MIN_OPACITY = .3;
+float MIN_OPACITY = .6;
 
 float MAX_WATTAGE;        //The max amount of wattage that will be displayed (set in main currently)
                           //  Controls how many watts each hexagon represents (would ideally be variable, easy change)
-float MAX_WATTHOURS;      //Similarly, the max amount of watthours represented (at which point the hexagons stop growing
+float WATTS_PER_METER = 40; 
+
+float MAX_WATTHOURS;      //Similarly, the max amount of watt-hours represented (at which point the hexagons stop growing
                           //  Meant to be used as a reset parameter
-float GROWTH_ANCHOR = 50; //Controls how fast the hexagons grow (less = faster, more = slower)
+float WATTHOURS_PER_METER = 400;
+
+float GROWTH_ANCHOR = 100; //Controls how fast the hexagons grow (lower = faster, higher = slower)
 
 int SCREEN_WIDTH = 800; 
 int SCREEN_HEIGHT = 500;
@@ -51,7 +66,7 @@ Vector3 palette[NUM_COLORS] =
    {213/255.0,203/255.0,194/255.0},
    {193/255.0,224/255.0,157/255.0}};
 
-queue<Cell *> off_cells;    //A queue of the cells that will be turned on next, if needed (gives varience in image)
+queue<Cell *> off_cells;    //A queue of the cells that will be turned on next, if needed (gives variance in image)
 vector<e_device *> devices;
 
 Cell::Cell(Vector2 pos, Vector3 color, size_t type){
@@ -103,7 +118,11 @@ void makeHexagon(float size, Vector2 pos, float zDepth,Vector3 color, float opac
 }
 
 void populate_hive(float shift_val){
-  //Horrible way of iterating over the hive... fix at some point
+  /*
+    This isn't really the ideal way to populate the hive... 
+    See the python version for a better implementation.
+    This is from the legacy code.
+  */
   float hd = 0.5 * HIVE_DIM;
   std::vector<Cell *> cells;
   float shift_row = shift_val / 2.0;
@@ -126,7 +145,7 @@ void populate_hive(float shift_val){
     cells.push_back(new Cell(pos,palette[r],-1));
     y += shift_val;
   }
-  //The last cell isn't inside of the frame
+  //The last cell isn't actually inside of the frame
   //Should change the logic, but this works for now.
   cells.pop_back();
 
@@ -201,7 +220,7 @@ void renderFunction(){
 	  }
 	}
       
-	//Now I need to manage watthours... which we will do informally (at some point make this a real count of watthours).
+	//Now I need to manage watthours... which we will do informally 
 	cur_device->meters->at(m)->accum_watts += DELAY * cur_wattage;
 	
 	//Drawing cells for a meter
@@ -220,7 +239,7 @@ void renderFunction(){
 
 
 void close_window(){
-  /* Freeing stuff - Could also use this as a chance to log outputs. */
+  // Freeing stuff - Could also use this as a chance to log outputs.
   for (int d = 0; d < devices.size(); d++){
     e_device *cur_device = devices[d];
     for (int m = 0; m < cur_device->meters->size(); m++){
@@ -360,24 +379,24 @@ int main(int argc, char**argv){
       printf("%s\n",reads[i].deviceID.c_str());
       if (find(current->ignore->begin(),
 	       current->ignore->end(), reads[i].deviceID) 
-	  == current->ignore->end()){
-	if (meter_count == NUM_COLORS){
-	  perror("Too many meters detected. Please define which to display in configuration file, using ignores.");
-	  exit(1);
-	}
-	meter * e_meter = new meter();
-	vector<Cell *> cells;
-	e_meter->meter_cells = cells;
-	e_meter->color = palette[meter_count];
-	e_meter->accum_watts = 0.0;
-	current->meters->push_back(e_meter);
-	meter_count++;
+	       == current->ignore->end()){
+	       if (meter_count == NUM_COLORS){
+	         perror("Too many meters detected. Please define which to display in configuration file, using ignores.");
+	         exit(1);
+	       }
+	       meter * e_meter = new meter();
+	       vector<Cell *> cells;
+	       e_meter->meter_cells = cells;
+	       e_meter->color = palette[meter_count];
+	       e_meter->accum_watts = 0.0;
+	       current->meters->push_back(e_meter);
+	       meter_count++;
       }
     }
   }
 
-  MAX_WATTAGE = meter_count * 40;
-  MAX_WATTHOURS = MAX_WATTAGE * 400;
+  MAX_WATTAGE = meter_count * WATTS_PER_METER;
+  MAX_WATTHOURS = MAX_WATTAGE * WATTHOURS_PER_METER;
   
   printf("Individual data points found: %i\n",meter_count);
   
@@ -394,7 +413,7 @@ int main(int argc, char**argv){
   glutMouseFunc(on_click);
   glutDisplayFunc(renderFunction);
   glutIdleFunc(on_idle);
-  //These enables flags are extremenly important if debugging a new feature look for
+  //These enables flags are extremely important if debugging a new feature look for
   // more flags that can be turned on!
   glEnable( GL_BLEND );
   glEnable( GL_LINE_SMOOTH );
