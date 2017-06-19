@@ -69,6 +69,9 @@ Vector3 palette[NUM_COLORS] =
 queue<Cell *> off_cells;    //A queue of the cells that will be turned on next, if needed (gives variance in image)
 vector<e_device *> devices;
 
+/*
+	Cell contains information about the properties of each hexagon
+*/
 Cell::Cell(Vector2 pos, Vector3 color, size_t type){
   Cell::pos = pos;
   Cell::color = color;
@@ -79,6 +82,9 @@ Cell::Cell(Vector2 pos, Vector3 color, size_t type){
   Cell::zDepth = rand() % 10000 / 10000.0; //Added to vary which show up in front of each other
 }
 
+/*
+	Calculates opacity, size, and then uses that information to call make hexagon
+*/
 void Cell::draw(float watt_hours) {
   //Set opacity, grow up, then back down in increments (could be cleaned up)
   if (increasing) Cell::opacity += .02;
@@ -93,6 +99,9 @@ void Cell::draw(float watt_hours) {
   makeHexagon(size, Cell::pos, Cell::zDepth,Cell::color, Cell::opacity);
 }
 
+/*
+	Method for drawing a hexagon. Won't bother to check the math but should look into the gl methods
+*/
 void makeHexagon(float size, Vector2 pos, float zDepth,Vector3 color, float opacity){
   float angle = 0.0;
   float angleInc =  1.04719755; //    pi/3
@@ -117,6 +126,11 @@ void makeHexagon(float size, Vector2 pos, float zDepth,Vector3 color, float opac
 
 }
 
+/*
+	The hive is the screen, which contains all the cells.
+	How many cells in total? where is this calculated?
+	
+*/
 void populate_hive(float shift_val){
   /*
     This isn't really the ideal way to populate the hive... 
@@ -285,6 +299,9 @@ void on_idle(){
   glutPostRedisplay();
 }
 
+/*
+	Parses XML file
+*/
 void addDevice(ifstream *myfile, string line, string type){
   //Parses string to add a given device... not pretty... and why I dislike C++/C
   vector<string> *ignores = new vector<string>;
